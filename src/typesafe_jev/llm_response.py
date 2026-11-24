@@ -27,7 +27,6 @@ PROMPT = ChatPromptTemplate.from_messages(
             "- Urgency score: {urgency_score:.2f} on a 0-3 rubric\n"
             "- Refund-related probability: {refund_probability:.2f}\n"
             "- Human-review probability: {human_review_probability:.2f}\n"
-            "- Final route: {route}\n\n"
             "Write the suggested customer response.",
         ),
     ]

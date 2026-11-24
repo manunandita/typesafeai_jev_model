@@ -17,7 +17,7 @@ class JevDecision:
     human_review_probability: float
     model: str | None = None
 
-def analyze_ticket(ticket):
+def analyze_ticket(ticket)->JevDecision:
     # 1. Get the settings
     api_key = os.getenv("TYPESAFE_API_KEY")
     model = os.getenv("TYPESAFE_MODEL", "jev-latest")
@@ -28,7 +28,7 @@ def analyze_ticket(ticket):
 
     # 2. Build the request: the text to judge + the questions to ask
     payload = {
-        "model": llm,
+        "model": model,
         "state": f"Customer support triage.\nCustomer ticket: {ticket}",
         "questions": {
             "department": {
@@ -72,13 +72,13 @@ def analyze_ticket(ticket):
     # 4. Read the answers
     answers = response.json()["answers"]
 
-    return {
-        "department": answers["department"]["choice"],
-        "department_confidence": answers["department"]["confidence"],
-        "urgency": answers["urgency"]["score"],
-        "refund_probability": answers["refund_related"]["noul"],
-        "human_review_probability": answers["human_review"]["noul"],
-    }
+    return JevDecision(
+        department=answers["department"]["choice"],
+        department_confidence=answers["department"]["confidence"],
+        urgency_score=answers["urgency"]["score"],
+        refund_probability=answers["refund_related"]["noul"],
+        human_review_probability=answers["human_review"]["noul"],
+    )
 
 
 if __name__ == "__main__":
