@@ -25,7 +25,6 @@ def analyze_ticket(ticket):
 
     if not api_key:
         raise RuntimeError("Add TYPESAFE_API_KEY to your .env file")
-    llm=ChatOllama(model="llama3.2:3b") 
 
     # 2. Build the request: the text to judge + the questions to ask
     payload = {
